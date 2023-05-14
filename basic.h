@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef basic_h
 #define basic_h
 class basic{
@@ -21,4 +23,4 @@ vector<vector<string>> basic::splitCommands(const vector<string> substrings){
     return split_substrings;
 }
 
-#endif /* basic_h */
+#endif

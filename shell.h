@@ -1,3 +1,4 @@
+#pragma once
 #ifndef shell_h
 #define shell_h
 #include <iostream>
@@ -19,7 +20,7 @@ struct Terminal {
     string strout;  //重定向标准输出
 };
 
-Terminal gTerm;
+extern Terminal gTerm;
 
 void doDiff(int argc, char * argv[]);
 void doGrep(int argc, char * argv[]);
@@ -33,4 +34,4 @@ void Green(const char * s);
 void Blue(const char * s);
 void Red(const char * s);
 
-#endif /* shell_h */
+#endif

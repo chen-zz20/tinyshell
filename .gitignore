@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+
+# ios
+.DS_Store

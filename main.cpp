@@ -1,8 +1,7 @@
 #include "shell.h"
-#include "echo.cpp"
 using namespace std;
 
-
+Terminal gTerm;
 
 //初始化输出
 void initial(){
