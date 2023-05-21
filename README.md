@@ -52,6 +52,15 @@
 
 [功能参考](https://www.man7.org/linux/man-pages/man1/cp.1.html)
 
+### cd指令
+用于切换工作目录。
+
+选项说明：
+
+--help：显示帮助。
+
+[功能参考](https://www.man7.org/linux/man-pages/man1/cd.1p.html)
+
 ### pwd指令
 用于显示工作目录。
 

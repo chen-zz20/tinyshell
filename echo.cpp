@@ -10,7 +10,7 @@ Echo::Echo(vector<string> _order):newline(true), interpretation(false), Basic(_o
     "  -n        do not append a newline\n"
     "  -e        enable interpretation of the following backslash escapes\n"
     "  -E        disable interpretation of backslash escapes (default)\n"
-    "--help      display this help and exit\n\n"
+    "  --help    display this help and exit\n\n"
     "`echo' interprets the following backslash-escaped characters:\n"
     "  \\a        alert (bell)\n"
     "  \\b        backspace\n"
@@ -60,7 +60,7 @@ void Echo::work(){
 }
 
 
-string Echo::unescape(const string& str) {
+string Echo::unescape(const string& str){
     string res;
     for (size_t i = 0; i < str.size(); i++) {
         if (str[i] == '\\') {

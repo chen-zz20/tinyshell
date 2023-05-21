@@ -1,6 +1,6 @@
 all: main
 
-file:=basic echo pwd main
+file:=basic echo pwd cd main
 o:=$(file:%=%.o)
 cpp:=$(file:%=%.cpp)
 

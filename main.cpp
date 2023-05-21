@@ -21,7 +21,8 @@ void initial(){
         }
         cerr << root.string() << ": No such directory" << endl;
     }
-    gTerm.wdir = "/";
+    gTerm.wdir = "";
+    gTerm.wdir = gTerm.wdir.make_preferred();
     cin.get();
 }
 
@@ -31,7 +32,7 @@ int main(int argc, const char * argv[]) {
     while(true){
         gTerm.strin = "";
         gTerm.strout = "";
-        cout << gTerm.user << "@" << gTerm.mach << ":" << gTerm.wdir.string() << "$ ";
+        cout << gTerm.user << "@" << gTerm.mach << ":~/" << gTerm.wdir.string() << "$ ";
         string user_input;
         vector<string> substrings;
         getline(cin, user_input);
@@ -58,6 +59,9 @@ int main(int argc, const char * argv[]) {
                 work.work();
             } else if (order[0] == "pwd") {
                 auto work = Pwd(order);
+                work.work();
+            } else if (order[0] == "cd") {
+                auto work = Cd(order);
                 work.work();
             } else if (order[0] == "exit") {
                 return 0;

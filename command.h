@@ -4,5 +4,6 @@
 
 #include "echo.h"
 #include "pwd.h"
+#include "cd.h"
 
 #endif

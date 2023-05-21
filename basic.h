@@ -18,6 +18,7 @@ public:
 
     Basic(const vector<string>& _order, const string& _help);
     void output_help();
+    void error(string err);
 };
 
 
