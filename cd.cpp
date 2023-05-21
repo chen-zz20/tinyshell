@@ -42,7 +42,12 @@ void Cd::work(){
     workdir = workdir.make_preferred();
     auto realdir = gTerm.root / workdir;
     if(fs::exists(realdir)){
-        gTerm.wdir = fs::relative(realdir, gTerm.root).lexically_normal();
+        if(fs::is_directory(realdir)) {
+            gTerm.wdir = fs::relative(realdir, gTerm.root).lexically_normal();
+        } else {
+            error("cd: " + order[1] + ": Not a directory");
+            return ;
+        }
     } else {
         error("cd: " + order[1] + ": No such file or directory");
         return ;
