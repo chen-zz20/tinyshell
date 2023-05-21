@@ -1,26 +1,25 @@
 #pragma once
-
 #ifndef basic_h
 #define basic_h
-class basic{
+
+#include "shell.h"
+
+
+class Basic{
 public:
-    vector<vector<string>> splitCommands(const vector<string> substrings);
-private:
+    const string green = "\e[92;1m";
+    const string blue = "\e[94;1m";
+    const string red = "\e[91;1m";
+    const string white = "\e[0m";
+    const string help;
+    vector<string> order;
+    string output;
+    virtual void work() = 0;
+
+    Basic(vector<string> _order, const string& _help);
+    void output_help();
 };
 
-vector<vector<string>> basic::splitCommands(const vector<string> substrings){
-    vector<vector<string>> split_substrings;
-    for (const auto& substring : substrings) {
-        vector<string> split;
-        istringstream iss(substring);
-        string word;
-        while (iss >> word) {
-            //cout<<"word:  "<<word<<endl;
-            split.push_back(word);
-        }
-        split_substrings.push_back(split);
-    }
-    return split_substrings;
-}
+
 
 #endif

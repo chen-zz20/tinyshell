@@ -34,3 +34,6 @@
 
 # ios
 .DS_Store
+
+reference/
+.vscode/
