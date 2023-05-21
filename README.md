@@ -70,6 +70,10 @@
 
 -n：表示输出之后不换行。
 
+-e：启用反斜杠转义
+
+-E：禁止反斜杠转义（默认）
+
 [功能参考](https://www.man7.org/linux/man-pages/man1/echo.1.html)
 
 ### diff指令
