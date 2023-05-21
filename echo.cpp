@@ -1,5 +1,6 @@
 #include "echo.h"
 
+
 Echo::Echo(vector<string> _order):newline(true), interpretation(false), Basic(_order, 
     "echo [-neE] [arg ...]\n"
     "Write arguments to the standard output.\n\n"
@@ -61,7 +62,7 @@ void Echo::work(){
 
 string Echo::unescape(const string& str) {
     string res;
-    for (int i = 0; i < str.size(); i++) {
+    for (size_t i = 0; i < str.size(); i++) {
         if (str[i] == '\\') {
             i++;
             if (i >= str.size()) {
@@ -74,7 +75,7 @@ string Echo::unescape(const string& str) {
                 case 'b': res += '\b'; break;
                 case 'c': return res;   // 遇到 \c，停止后续输出
                 case 'e': 
-                case 'E': res += '\x1B'; break;
+                case 'E': res += '\e'; break;
                 case 'f': res += '\f'; break;
                 case 'n': res += '\n'; break;
                 case 'r': res += '\r'; break;

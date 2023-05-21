@@ -16,7 +16,7 @@ public:
     string output;
     virtual void work() = 0;
 
-    Basic(vector<string> _order, const string& _help);
+    Basic(const vector<string>& _order, const string& _help);
     void output_help();
 };
 

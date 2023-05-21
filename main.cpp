@@ -9,10 +9,18 @@ Terminal gTerm;
 void initial(){
     cout << "Machine Name: ";
     cin >> gTerm.mach;
-    cout << "Root Directory: ";
-    cin >> gTerm.root;
     cout << "Login: ";
     cin >> gTerm.user;
+    while(true){
+        cout << "Root Directory: ";
+        fs::path root;
+        cin >> root;
+        if(fs::exists(root)){
+            gTerm.root = root;
+            break;
+        }
+        cerr << root.string() << ": No such directory" << endl;
+    }
     gTerm.wdir = "/";
     cin.get();
 }
@@ -23,7 +31,7 @@ int main(int argc, const char * argv[]) {
     while(true){
         gTerm.strin = "";
         gTerm.strout = "";
-        cout << gTerm.user << "@" << gTerm.mach << ":" << gTerm.wdir << "$ ";
+        cout << gTerm.user << "@" << gTerm.mach << ":" << gTerm.wdir.string() << "$ ";
         string user_input;
         vector<string> substrings;
         getline(cin, user_input);
@@ -45,33 +53,13 @@ int main(int argc, const char * argv[]) {
                 split_substrings.push_back(split);
             }   //分割每个指令字符串
         for(auto order:split_substrings){
-            //cout<<order[0]<<" "<<order[1]<<endl;
-            /*if (order[0].compare("diff") == 0) {
-                doDiff(argc, argv);
-            }
-            else if (order[0].compare("grep") == 0) {
-                doGrep(argc, argv);
-            }
-            else if (order[0].compare("tee") == 0) {
-                doTee(argc, argv);
-            }
-            else if (order[0].compare("cat") == 0) {
-                doCat(argc, argv);
-            }
-            else if (order[0].compare("cp") == 0) {
-                doCp(argc, argv);
-            }
-            else if (order[0].compare("cd") == 0) {
-                doCd(argc, argv);
-            }
-            else if (order[0].compare("pwd") == 0) {
-                doPwd(argc, argv);
-            }*/
             if (order[0] == "echo") {
                 auto work = Echo(order);
                 work.work();
-            }
-            else if (order[0] == "exit") {
+            } else if (order[0] == "pwd") {
+                auto work = Pwd(order);
+                work.work();
+            } else if (order[0] == "exit") {
                 return 0;
             }
             else {
