@@ -1,7 +1,7 @@
 #include "pwd.h"
 
 
-Pwd::Pwd(vector<string> _order):Basic(_order, 
+Pwd::Pwd(const vector<string>& _order):Basic(_order, 
     "pwd: pwd [-LP]\n"
     "Print the name of the current working directory.\n\n"
     "Options:\n"

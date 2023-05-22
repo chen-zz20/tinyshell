@@ -6,7 +6,7 @@
 
 class Ls: public Basic{
 public:
-    Ls(vector<string> _order);
+    Ls(const vector<string>& _order);
     void work();
 };
 

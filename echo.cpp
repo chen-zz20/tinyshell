@@ -1,7 +1,7 @@
 #include "echo.h"
 
 
-Echo::Echo(vector<string> _order):newline(true), interpretation(false), Basic(_order, 
+Echo::Echo(const vector<string>& _order):newline(true), interpretation(false), Basic(_order, 
     "echo [-neE] [arg ...]\n"
     "Write arguments to the standard output.\n\n"
     "Display the ARGs, separated by a single space character and followed by a\n"

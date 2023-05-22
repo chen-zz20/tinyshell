@@ -6,7 +6,7 @@
 
 class Cd: public Basic{
 public:
-    Cd(vector<string> _order);
+    Cd(const vector<string>& _order);
     void work();
 };
 

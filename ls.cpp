@@ -1,7 +1,7 @@
 #include "ls.h"
 
 
-Ls::Ls(vector<string> _order):Basic(_order, 
+Ls::Ls(const vector<string>& _order):Basic(_order, 
     "Usage: ls\n"
     "List information about the FILEs (the current directory by default).\n"
     "Sort entries alphabetically.\n\n"

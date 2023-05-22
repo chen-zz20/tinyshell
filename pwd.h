@@ -6,7 +6,7 @@
 
 class Pwd: public Basic{
 public:
-    Pwd(vector<string> _order);
+    Pwd(const vector<string>& _order);
     void work();
 };
 

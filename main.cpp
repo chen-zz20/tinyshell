@@ -54,7 +54,10 @@ int main(int argc, const char * argv[]) {
                 split_substrings.push_back(split);
             }   //分割每个指令字符串
         for(auto order:split_substrings){
-            if (order[0] == "echo") {
+            if (order[0] == "import") {
+                auto work = Import(order);
+                work.work();
+            } else if (order[0] == "echo") {
                 auto work = Echo(order);
                 work.work();
             } else if (order[0] == "pwd") {
@@ -77,4 +80,3 @@ int main(int argc, const char * argv[]) {
     }
     return 0;
 }
-

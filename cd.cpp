@@ -1,7 +1,7 @@
 #include "cd.h"
 
 
-Cd::Cd(vector<string> _order):Basic(_order, 
+Cd::Cd(const vector<string>& _order):Basic(_order, 
     "cd: cd [dir]\n"
     "Change the shell working directory.\n\n"
     "Change the current directory to DIR.  The default DIR is the value of the\n"
