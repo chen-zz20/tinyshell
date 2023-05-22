@@ -86,6 +86,7 @@ string Echo::unescape(const string& str){
                     // 转换十六进制
                     if (i + 2 < str.size()) {
                         int val = 0;
+                        bool legal = true;
                         for (int j = i + 1; j < i + 3; j++) {
                             if (str[j] >= '0' && str[j] <= '9') {
                                 val = val * 16 + (str[j] - '0');
@@ -95,14 +96,22 @@ string Echo::unescape(const string& str){
                                 val = val * 16 + (str[j] - 'A' + 10);
                             } else {
                                 // 非法的十六进制数值，不进行转义
-                                res += '\\';
-                                res += 'x';
-                                i++;
-                                continue;
+                                if(j == i + 1){
+                                    res += "\\x";
+                                    legal = false;
+                                    break;
+                                }
+                                i = j - 1;
+                                res += static_cast<char>(val);
+                                legal = false;
+                                break;
                             }
                         }
-                        res += static_cast<char>(val);
-                        i += 2;
+                        if(legal){
+                            if(val < 128)
+                                res += static_cast<char>(val);
+                            i += 2;
+                        }
                     } else {
                         // 不完整的十六进制转义，不进行转义
                         res += '\\';
@@ -114,19 +123,29 @@ string Echo::unescape(const string& str){
                     // 转换八进制
                     if (i + 3 < str.size()) {
                         int val = 0;
+                        bool legal = true;
                         for (int j = i + 1; j < i + 4; j++) {
                             if (str[j] >= '0' && str[j] <= '7') {
                                 val = val * 8 + (str[j] - '0');
                             } else {
                                 // 非法的八进制数值，不进行转义
-                                res += '\\';
-                                res += '0';
-                                i++;
-                                continue;
+                                cout<<str[j]<<endl;
+                                if(j == i + 1){
+                                    res += "\\0";
+                                    legal = false;
+                                    break;
+                                }
+                                i = j - 1;
+                                res += static_cast<char>(val);
+                                legal = false;
+                                break;
                             }
                         }
-                        res += static_cast<char>(val);
-                        i += 3;
+                        if(legal){
+                            if(val < 128)
+                                res += static_cast<char>(val);
+                            i += 3;
+                        }
                     } else {
                         // 不完整的八进制转义，不进行转义
                         res += '\\';
