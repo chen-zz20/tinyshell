@@ -63,8 +63,10 @@ bool Basic::write_file(const string &file_name, const vector<string> &content, c
     for(size_t i = 0; i < size - 1; i++){
         *output << content[i] << "\n";
     }
-    *output << content[size-1];
-    if(dynamic_cast<ofstream*>(output))
+    if(dynamic_cast<ofstream*>(output)){
+        *output << content[size-1];
         (*(dynamic_cast<ofstream*>(output))).close();
+    } else
+        *output << content[size-1] << "\n";
     return true;
 }
