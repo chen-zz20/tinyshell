@@ -7,5 +7,6 @@
 #include "pwd.h"
 #include "cd.h"
 #include "ls.h"
+#include "cat.h"
 
 #endif
