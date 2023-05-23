@@ -20,7 +20,7 @@ public:
     void output_help();
     void error(string err);
     bool read_file(const string& file_name, vector<string>& content);
-    bool write_file(const string& file_name, const vector<string>& content);
+    bool write_file(const string& file_name, const vector<string>& content, const char mode='w');
 };
 
 

@@ -16,29 +16,55 @@ void Basic::error(string err){
 
 
 bool Basic::read_file(const string& file_name, vector<string>& content){
-    fstream file(file_name, ios::in);
-    if (!file.is_open()) {
-        error("Failed to open " + file_name);
-        return false;
+    istream *input=nullptr;
+    if(file_name=="-"){
+        input = new stringstream(gTerm.strout);
+    } else {
+        auto file = new ifstream(file_name);
+        if (!file->is_open()) {
+            error("Failed to open " + file_name);
+            delete file;
+            return false;
+        }
+        input = file;
     }
     content = vector<string>();
     string line;
-    while(getline(file, line)){
+    while(getline(*input, line)){
         content.push_back(line);
     }
-    file.close();
+    if(dynamic_cast<ifstream*>(input))
+        (*(dynamic_cast<ifstream*>(input))).close();
+    delete input;
     return true;
 }
 
 
-bool Basic::write_file(const string &file_name, const vector<string> &content){
-    fstream file(file_name, ios::out);
-    if (!file.is_open()) {
-        error("Failed to open " + file_name);
-        return false;
+bool Basic::write_file(const string &file_name, const vector<string> &content, const char mode){
+    ostream *output=nullptr;
+    if(file_name=="-"){
+        output = new stringstream(gTerm.strout);
+    } else {
+        ofstream *file=nullptr;
+        if(mode == 'w')
+            file = new ofstream(file_name, ios::out);
+        else if (mode == 'a')
+            file = new ofstream(file_name, ios::app);
+        else
+            return false;
+        if (!file->is_open()) {
+            error("Failed to open " + file_name);
+            delete file;
+            return false;
+        }
+        output = file;
     }
-    for(auto line:content){
-        file<<line<<"\n";
+    auto size = content.size();
+    for(size_t i = 0; i < size - 1; i++){
+        *output << content[i] << "\n";
     }
+    *output << content[size-1];
+    if(dynamic_cast<ofstream*>(output))
+        (*(dynamic_cast<ofstream*>(output))).close();
     return true;
 }
