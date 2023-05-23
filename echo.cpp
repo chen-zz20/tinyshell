@@ -22,11 +22,9 @@ Echo::Echo(const vector<string>& _order):newline(true), interpretation(false), B
     "  \\r        carriage return\n"
     "  \\t        horizontal tab\n"
     "  \\v        vertical tab\n"
-    "  \\\\        backslash\n"
-    "  \\0nnn     the character whose ASCII code is NNN (octal).  NNN can be\n"
-    "              0 to 3 octal digits\n"
-    "  \\xHH      the eight-bit character whose value is HH (hexadecimal).  HH\n"
-    "              can be one or two hex digits\n\n"
+    "  \\\\       backslash\n"
+    "  \\0nnn     byte with octal value NNN (1 to 3 digits)\n"
+    "  \\xHH      byte with hexadecimal value HH (1 to 2 digits)\n\n"
     "Exit Status:\n"
     "Returns success unless a write error occurs.\n"
     ){}
@@ -87,7 +85,7 @@ string Echo::unescape(const string& str){
                     if (i + 2 < str.size()) {
                         int val = 0;
                         bool legal = true;
-                        for (int j = i + 1; j < i + 3; j++) {
+                        for (size_t j = i + 1; j < i + 3; j++) {
                             if (str[j] >= '0' && str[j] <= '9') {
                                 val = val * 16 + (str[j] - '0');
                             } else if (str[j] >= 'a' && str[j] <= 'f') {
@@ -124,7 +122,7 @@ string Echo::unescape(const string& str){
                     if (i + 3 < str.size()) {
                         int val = 0;
                         bool legal = true;
-                        for (int j = i + 1; j < i + 4; j++) {
+                        for (size_t j = i + 1; j < i + 4; j++) {
                             if (str[j] >= '0' && str[j] <= '7') {
                                 val = val * 8 + (str[j] - '0');
                             } else {
