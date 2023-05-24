@@ -68,6 +68,7 @@ void Import::change_files(const string& command){
         command_text.insert(command_text.end() - 2, new_line);
         write_file("./command.h", command_text);
     } else {
+        error("import: failed to open command.h");
         return;
     }
 
@@ -92,6 +93,7 @@ void Import::change_files(const string& command){
         main_cpp_out << main_text[size-1] + "\n";
         main_cpp_out.close();
     } else {
+        error("import: failed to open main.cpp");
         return ;
     }
 
@@ -101,6 +103,7 @@ void Import::change_files(const string& command){
         makefile_text[2].insert(makefile_text[2].size() - 5, " " + command);
         write_file("./Makefile", makefile_text);
     } else {
+        error("import: failed to open Makefile");
         return ;
     }
     return ;

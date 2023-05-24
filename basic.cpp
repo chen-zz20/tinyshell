@@ -22,13 +22,11 @@ bool Basic::read_file(const string& file_name, vector<string>& content){
     } else {
         auto file = new ifstream(file_name);
         if (!file->is_open()) {
-            error("Failed to open " + file_name);
             delete file;
             return false;
         }
         input = file;
     }
-    content = vector<string>();
     string line;
     while(getline(*input, line)){
         content.push_back(line);
@@ -53,7 +51,6 @@ bool Basic::write_file(const string &file_name, const vector<string> &content, c
         else
             return false;
         if (!file->is_open()) {
-            error("Failed to open " + file_name);
             delete file;
             return false;
         }

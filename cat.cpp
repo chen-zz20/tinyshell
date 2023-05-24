@@ -1,84 +1,91 @@
 #include "cat.h"
+#include <cmath>
 
-Cat::Cat(const vector<string>& _order):Basic(_order,
-    "cat [OPTION]... [FILE]...\n"
-    "concatenate files and print on the standard output\n\n"
+Cat::Cat(const vector<string>& _order):numberline(0), simem(false), dis$(false), Basic(_order,
+    "Usage: cat [OPTION]... [FILE]...\n"
+    "Concatenate FILE(s) to standard output.\n\n"
+    "With no FILE, or when FILE is -, read standard input.\n\n"
     "Options:\n"
-    "-n            number all output lines"
-    "-b            number nonempty output lines, overrides -n"
-    "-s            suppress repeated empty output lines"
-    "-E            display $ at end of each line"
-    "--help        display this help and exit"
+    " -n            number all output lines\n"
+    " -b            number nonempty output lines, overrides -n\n"
+    " -s            suppress repeated empty output lines\n"
+    " -E            display $ at end of each line\n"
+    " --help        display this help and exit\n"
     ){}
 
 void Cat::work(){
-    bool numberline = false;
-    bool empty = false;
-    bool simem = false;
-    bool dis$ = false;
-    for (const auto& arg : order) {
+    vector<string> filename;
+    auto size = order.size();
+    for (size_t i = 1; i < size; i++) {
+        auto arg = order[i];
         if (arg == "--help"){
             output_help();
             return ;
-        } else if (arg == "-n"){
-            numberline = true;
+        } else if (arg == "-n" && numberline != 2){
+            numberline = 1;
         } else if (arg == "-b"){
-            empty = true;
+            numberline = 2;
         } else if (arg == "-s"){
             simem = true;
-        }
-        else if (arg == "-E"){
+        } else if (arg == "-E"){
             dis$ = true;
+        } else {
+            filename.push_back(arg);
         }
     }
-    fs::path workdir = order[order.size() - 1];
-    workdir = gTerm.wdir / workdir;
-    workdir = workdir.make_preferred();
-    auto realdir = gTerm.root / workdir;
-    if(fs::exists(realdir)){
-        if(realdir.extension() == ".txt"){   //判断是否为txt文件
-            ifstream file(order[order.size() - 1]);
-            if (file) {
-                string line;
-                string previousLine = "";
-                bool isPreviousLineEmpty = false;
-                int lineNumber = 1;
-                while (getline(file, line)) {
-                    // 逐行读取文件内容并输出到标准输出
-                    if (numberline){
-                        gTerm.strout += static_cast<char>(lineNumber);
-                        gTerm.strout += ":";
-                        gTerm.strout += line;
-                        gTerm.strout += "\n";
-                    }
-                    if (empty){
-                        if (line.empty())
-                            gTerm.strout += line;
-                    }
-                    if (simem){
-                        if(line.empty()){
-                            if(isPreviousLineEmpty)
-                                continue;
-                            else
-                                gTerm.strout += "\n";
-                            isPreviousLineEmpty = true;
-                        }
-                        else{
-                            isPreviousLineEmpty = false;
-                            gTerm.strout += line;
-                        }
-                        lineNumber += 1;
-                    }
+    if(filename.empty())
+        filename.push_back("-");
+    auto workdir = gTerm.root / gTerm.wdir;
+    vector<string> content;
+    for(auto file:filename){
+        if(file == "-"){
+            read_file("-", content);
+            continue;
+        }
+        auto real_path = workdir / fs::path(file);
+        if(!fs::exists(real_path)){
+            error("cat: " + file + ": No such file or directory");
+            continue;
+        }
+        if(!fs::is_regular_file(real_path)){
+            error("cat: " + file + ": Is a directory");
+            continue;
+        }
+        if(!read_file(real_path.string(), content)){
+            error("cat: failed to open " + file);
+            continue;
+        }
+    }
+    if(content.empty()){
+        gTerm.strout = "";
+        return ;
+    }
+    const int width = static_cast<int>(floor(log10(content.size())) + 1);
+    int n = 1;
+    bool blank_before = false;
+    for(const auto& line:content){
+        bool blank = is_blank_line(line);
+        string number = numberline==0 ? "" : ((numberline == 2 && blank) ? string(width+1, ' ') : string(width - static_cast<int>(floor(log10(n)) + 1), ' ') + green + to_string(n) + white + " ");
+        if(simem){
+            if(blank){
+                if(blank_before)
+                    continue;
+                else{
+                    blank_before = true;
                 }
-            }
-            else{
-                error("cat: " + order[order.size() - 1] + ": Cannot open,please check");
-                return ;
+            } else {
+                blank_before = false;
             }
         }
-        else{
-            error("cat: " + order[order.size() - 1] + ": Not a txt document");
-            return;
-        }
+        if(numberline == 1 || (numberline == 2 && !blank))
+            n++;
+        output += (number + line + (dis$?"$":"") + "\n");
     }
+    gTerm.strout = output;
+    return ;
+}
+
+
+bool Cat::is_blank_line(const string& line){
+    return line.find_first_not_of(" \t\n\v\f\r") == string::npos;
 }
