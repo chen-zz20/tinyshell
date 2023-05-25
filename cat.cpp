@@ -47,7 +47,7 @@ void Cat::work(){
             error("cat: " + file + ": No such file or directory");
             continue;
         }
-        if(!fs::is_regular_file(real_path)){
+        if(fs::is_directory(real_path)){
             error("cat: " + file + ": Is a directory");
             continue;
         }
@@ -60,12 +60,12 @@ void Cat::work(){
         gTerm.strout = "";
         return ;
     }
-    const int width = static_cast<int>(floor(log10(content.size())) + 1);
+    const int width = static_cast<int>(log10(content.size()) + 1);
     int n = 1;
     bool blank_before = false;
     for(const auto& line:content){
         bool blank = is_blank_line(line);
-        string number = numberline==0 ? "" : ((numberline == 2 && blank) ? string(width+1, ' ') : string(width - static_cast<int>(floor(log10(n)) + 1), ' ') + green + to_string(n) + white + " ");
+        string number = numberline==0 ? "" : ((numberline == 2 && blank) ? string(width+1, ' ') : string(width - static_cast<int>(log10(n) + 1), ' ') + green + to_string(n) + white + " ");
         if(simem){
             if(blank){
                 if(blank_before)

@@ -18,7 +18,7 @@ void Basic::error(string err){
 bool Basic::read_file(const string& file_name, vector<string>& content){
     istream *input=nullptr;
     if(file_name=="-"){
-        input = new stringstream(gTerm.strout);
+        input = new stringstream(gTerm.strin);
     } else {
         auto file = new ifstream(file_name);
         if (!file->is_open()) {
@@ -32,7 +32,7 @@ bool Basic::read_file(const string& file_name, vector<string>& content){
         content.push_back(line);
     }
     if(dynamic_cast<ifstream*>(input))
-        (*(dynamic_cast<ifstream*>(input))).close();
+        (dynamic_cast<ifstream*>(input))->close();
     delete input;
     return true;
 }
@@ -62,7 +62,7 @@ bool Basic::write_file(const string &file_name, const vector<string> &content, c
     }
     if(dynamic_cast<ofstream*>(output)){
         *output << content[size-1];
-        (*(dynamic_cast<ofstream*>(output))).close();
+        (dynamic_cast<ofstream*>(output))->close();
     } else
         *output << content[size-1] << "\n";
     return true;

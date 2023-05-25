@@ -5,16 +5,16 @@ o:=$(file:%=%.o)
 cpp:=$(file:%=%.cpp)
 
 %.o: %.cpp
-	g++ -c $^ -o $@ -static
+	g++ -c $^ -o $@ -static --std=c++17
 
 main.exe: $(o)
-	g++ $^ -o main.exe -static
+	g++ $^ -o main.exe
 
 main:main.exe
 	main.exe
 
 debug.exe: $(cpp)
-	g++ $^ -static -o debug.exe -g
+	g++ $^ -o debug.exe -g --std=c++17
 
 debug:debug.exe
 

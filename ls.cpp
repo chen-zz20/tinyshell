@@ -37,7 +37,7 @@ void Ls::work(){
         return ;
     }
 
-    for (auto& entry : fs::directory_iterator(realdir)) {
+    for (const auto& entry:fs::directory_iterator(realdir)) {
         if (fs::is_directory(entry.path())) {
             output = output + blue + entry.path().filename().string() + " ";
         } else if (fs::is_regular_file(entry.path())) {

@@ -54,6 +54,8 @@ int main(int argc, const char * argv[]) {
                 split_substrings.push_back(split);
             }   //分割每个指令字符串
         for(auto order:split_substrings){
+            gTerm.strin = gTerm.strout;
+            gTerm.strout = "";
             if (order[0] == "import") {
                 auto work = Import(order);
                 work.work();
