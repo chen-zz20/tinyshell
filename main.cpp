@@ -74,6 +74,9 @@ int main(int argc, const char * argv[]) {
             } else if (order[0] == "cat"){
                 auto work = Cat(order);
                 work.work();
+            } else if (order[0] == "tee") {
+                auto work = Tee(order);
+                work.work();
             } else if (order[0] == "exit") {
                 return 0;
             }
