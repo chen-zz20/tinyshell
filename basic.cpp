@@ -45,9 +45,9 @@ bool Basic::write_file(const string &file_name, const vector<string> &content, c
     } else {
         ofstream *file=nullptr;
         if(mode == 'w')
-            file = new ofstream(file_name, ios::out);
+            file = new ofstream(file_name, ios::out);   //覆盖写入
         else if (mode == 'a')
-            file = new ofstream(file_name, ios::app);
+            file = new ofstream(file_name, ios::app);   //追加写入
         else
             return false;
         if (!file->is_open()) {
