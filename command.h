@@ -8,5 +8,6 @@
 #include "cd.h"
 #include "ls.h"
 #include "cat.h"
+#include "tee.h"
 
 #endif

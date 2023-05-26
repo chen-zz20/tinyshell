@@ -1,6 +1,6 @@
 all: main
 
-file:=basic import echo pwd cd ls cat main
+file:=basic import echo pwd cd ls cat tee main
 o:=$(file:%=%.o)
 cpp:=$(file:%=%.cpp)
 
@@ -8,7 +8,7 @@ cpp:=$(file:%=%.cpp)
 	g++ -c $^ -o $@ -static --std=c++17
 
 main.exe: $(o)
-	g++ $^ -o main.exe
+	g++ $^ -o main.exe -static
 
 main:main.exe
 	main.exe
