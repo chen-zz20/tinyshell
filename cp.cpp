@@ -38,24 +38,26 @@ void Cp::work(){
                 continue;
             }
             bool hasSameFileName = false;
-            if (std::filesystem::is_directory(destinationFile)) {
-                for (const auto& entry : std::filesystem::directory_iterator(destinationFile)) {
+            if (filesystem::is_directory(destinationFile)) {
+                for (const auto& entry : filesystem::directory_iterator(destinationFile)) {
                     if (entry.is_regular_file()) {
-                        std::filesystem::path fileName = entry.path().filename();
+                        filesystem::path fileName = entry.path().filename();
                         if (real_path.filename() == fileName){
                             hasSameFileName = true;
                             break;
+                        }
                     }
                 }
             }
-            
-                // 如果存在相同文件名的文件，则跳过复制操作
-                if (!overwrite && hasSameFileName ) {
-                    fs::copy(real_path, destinationFile, fs::copy_options::skip_existing);
-                } else {
-                    fs::copy(real_path, destinationFile, fs::copy_options::overwrite_existing);
-                }
-             }
+            else if(fs::is_regular_file(destinationFile))
+                if (real_path.filename() == destinationFile.filename())
+                    hasSameFileName = true;
+            // 如果存在相同文件名的文件，则跳过复制操作
+            if (!overwrite && hasSameFileName ) {
+                fs::copy(real_path, destinationFile, fs::copy_options::skip_existing);
+            } else {
+                fs::copy(real_path, destinationFile, fs::copy_options::overwrite_existing);
+            }
         }
     }
 }
