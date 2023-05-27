@@ -37,11 +37,25 @@ void Cp::work(){
                 error("cp: " + file + ": No such file or directory");
                 continue;
             }
-            if (fs::exists(destinationFile) && fs::equivalent(real_path, destinationFile) && (!overwrite)){
-                fs::copy_options options = fs::copy_options::skip_existing;
-                fs::copy(real_path, destinationFile, options);
-            } else
-                fs::copy(real_path, destinationFile);
+            bool hasSameFileName = false;
+            if (std::filesystem::is_directory(destinationFile)) {
+                for (const auto& entry : std::filesystem::directory_iterator(destinationFile)) {
+                    if (entry.is_regular_file()) {
+                        std::filesystem::path fileName = entry.path().filename();
+                        if (real_path.filename() == fileName){
+                            hasSameFileName = true;
+                            break;
+                    }
+                }
+            }
+            
+                // 如果存在相同文件名的文件，则跳过复制操作
+                if (!overwrite && hasSameFileName ) {
+                    fs::copy(real_path, destinationFile, fs::copy_options::skip_existing);
+                } else {
+                    fs::copy(real_path, destinationFile, fs::copy_options::overwrite_existing);
+                }
+             }
         }
     }
 }
