@@ -9,5 +9,6 @@
 #include "ls.h"
 #include "cat.h"
 #include "tee.h"
+#include "cp.h"
 
 #endif

@@ -1,6 +1,6 @@
 all: main
 
-file:=basic import echo pwd cd ls cat tee main
+file:=basic import echo pwd cd ls cat tee cp main
 o:=$(file:%=%.o)
 cpp:=$(file:%=%.cpp)
 

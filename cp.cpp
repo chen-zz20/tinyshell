@@ -1,4 +1,4 @@
-#include "cp.hpp"
+#include "cp.h"
 
 Cp::Cp(const vector<string>& _order):overwrite(true),Basic(_order,
     "usage: cp [OPTION] source_file destination_file\n"
@@ -22,13 +22,11 @@ void Cp::work(){
             filename.push_back(arg);
         }
     }
-    if(filename.empty() || filename.size() == 1)
+    if(filename.size() <= 1)
         error("cp: Please input both source_file and destination_file");
     auto workdir = gTerm.root / gTerm.wdir;
     string dest_file = filename.back();
-    vector<string> content;
     string sourceFile;
-    char sign = overwrite ? 'w' : 'a';
     for(auto file:filename){
         auto real_path = workdir / fs::path(file);
         if (file == "-")
