@@ -19,8 +19,6 @@ void Tee::work(){
             return ;
         } else if (arg == "-a"){
             overwrite = false;
-        } else if (arg == "-"){
-            continue;
         } else {
             filename.push_back(arg);
         }
