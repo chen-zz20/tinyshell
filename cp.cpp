@@ -26,46 +26,22 @@ void Cp::work(){
         error("cp: Please input both source_file and destination_file");
     auto workdir = gTerm.root / gTerm.wdir;
     string dest_file = filename.back();
-    string sourceFile;
+    auto destinationFile = workdir / fs::path(dest_file);
     for(auto file:filename){
         auto real_path = workdir / fs::path(file);
         if (file == "-")
-            sourceFile = gTerm.strin;
+            real_path = workdir / gTerm.strin;
         //如果source_file不存在，直接报错；如果dest_file存在，则直接复制写入，否则创建再写入。
         else if (file != dest_file){
-            sourceFile = file;
             if(!fs::exists(real_path)){
                 error("cp: " + file + ": No such file or directory");
                 continue;
             }
+            if (fs::exists(destinationFile) && fs::equivalent(real_path, destinationFile) && (!overwrite)){
+                fs::copy_options options = fs::copy_options::skip_existing;
+                fs::copy(real_path, destinationFile, options);
+            } else
+                fs::copy(real_path, destinationFile);
         }
-        copyFile(sourceFile, dest_file);
     }
-}
-
-void Cp::copyFile(const string& sourceFile, const string& destinationFile) {
-    ifstream source(sourceFile, ios::binary);
-    ofstream destination(destinationFile, ios::binary);
-    
-    // 检查目标文件是否存在
-    if (!destination) {
-        // 目标文件不存在，创建一个新文件
-        std::ofstream createFile(destinationFile);
-        createFile.close();
-
-        // 重新打开目标文件
-        destination.open(destinationFile, std::ios::binary);
-    }
-    if (source && destination) {
-        // 逐个字节复制文件内容
-        char ch;
-        while (source.get(ch)) {
-            destination.put(ch);
-        }
-        
-    } else {
-        error("cp: " + sourceFile + "or " + destinationFile + " cannot open.");
-    }
-    source.close();
-    destination.close();
 }
