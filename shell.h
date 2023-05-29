@@ -9,6 +9,8 @@
 #include <fstream>
 #include <vector>
 #include <fstream>
+#include <regex>
+#include <string>
 
 using namespace std;
 namespace fs = std::filesystem;

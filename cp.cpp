@@ -22,11 +22,13 @@ void Cp::work(){
             filename.push_back(arg);
         }
     }
+    
     if(filename.size() <= 1)
         error("cp: Please input both source_file and destination_file");
     auto workdir = gTerm.root / gTerm.wdir;
     string dest_file = filename.back();
     auto destinationFile = workdir / fs::path(dest_file);
+    
     for(auto file:filename){
         auto real_path = workdir / fs::path(file);
         if (file == "-")
@@ -52,6 +54,7 @@ void Cp::work(){
             else if(fs::is_regular_file(destinationFile))
                 if (real_path.filename() == destinationFile.filename())
                     hasSameFileName = true;
+            
             // 如果存在相同文件名的文件，则跳过复制操作
             if (!overwrite && hasSameFileName ) {
                 fs::copy(real_path, destinationFile, fs::copy_options::skip_existing);

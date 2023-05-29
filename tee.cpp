@@ -1,7 +1,7 @@
 #include "tee.h"
 
 Tee::Tee(const vector<string>& _order):overwrite(true),Basic(_order,
-    "usage: usage: tee [OPTION]... [FILE]... \n"
+    "usage: tee [OPTION]... [FILE]... \n"
     "Read from standard input and write to standard output and files \n\n"
     "Options:\n"
     " -a          append to the given FILEs, do not overwrite\n"

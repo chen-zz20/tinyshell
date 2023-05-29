@@ -1,6 +1,6 @@
 #pragma once
-#ifndef cp_hpp
-#define cp_hpp
+#ifndef cp_h
+#define cp_h
 #include "basic.h"
 
 class Cp: public Basic{

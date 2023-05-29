@@ -80,6 +80,9 @@ int main(int argc, const char * argv[]) {
             } else if (order[0] == "cp") {
                 auto work = Cp(order);
                 work.work();
+            } else if (order[0] == "grep") {
+                auto work = Grep(order);
+                work.work();
             } else if (order[0] == "exit") {
                 return 0;
             }
